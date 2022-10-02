@@ -1,0 +1,21 @@
+UNADDRESSABLE ACCESS
+name=chkstk surpress
+program.exe!___chkstk_ms
+
+UNADDRESSABLE ACCESS
+name=pformat xint surpress
+program.exe!.text
+program.exe!__pformat_xint
+program.exe!*
+
+UNADDRESSABLE ACCESS
+name=pformat int surpress
+program.exe!.text
+program.exe!__pformat_int
+program.exe!*
+
+UNADDRESSABLE ACCESS
+name=log_buffer_hexdump workaround
+drmemorylib.dll!replace_memmove
+program.exe!log_buffer_hexdump
+program.exe!*

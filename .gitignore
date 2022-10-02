@@ -1,0 +1,11 @@
+.pio
+.vscode/arduino.json
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
+lib/gsm_mux/
+test/test_gsm_mux
+docs/html/
+cmux-cppcheck-build-dir/
+
+.reports/
