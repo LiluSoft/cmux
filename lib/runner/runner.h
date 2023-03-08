@@ -1,11 +1,21 @@
+/**
+ * @file runner.h
+ * @author Dror Gluska
+ * @brief This snippet is designed to run a function in native, arduino and esp-idf frameworks
+ * @version 0.2
+ * @date 2023-02-22
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #pragma once
+
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
     #ifdef ARDUINO
-
-void loop();
-void setup();
 
 #elif defined(ESP_PLATFORM)
 
@@ -24,7 +34,7 @@ int main(int argc, char **argv);
 
 #define MAIN() \
 void loop(){ \
-    while(1){}
+    while(1){}\
 } \
 int call_setup();\
 void setup(){\
@@ -43,9 +53,11 @@ int call_app_main()
 
 #else
 
+// setvbuf(stdout, NULL, _IONBF, 1024); 
+
 #define MAIN() \
 int call_app_main();\
-int main(int argc, char **argv){\
+int main(int argc, char**argv){\
     (void)(argc);\
     (void)(argv);\
     return call_app_main();\
