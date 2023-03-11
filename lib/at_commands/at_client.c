@@ -83,7 +83,7 @@ void at_client_ingest(struct at_client_t *client, int_fast16_t size, uint8_t *bu
 
         if (buffer[i] == '\r' || buffer[i] == '\n')
         {
-            process_buffer_callback(client, buffer[i]);
+            process_buffer_callback(client, '\r');
             memset(client->buffer, 0, MAXIMUM_COMMAND_LENGTH);
             client->buffer_index = 0;
         }

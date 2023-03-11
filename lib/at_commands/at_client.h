@@ -80,6 +80,7 @@ struct at_client_t
     char delimiters[MAXIMUM_COMMAND_CALLBACKS];
     size_t last_delimiter;
 
+    void * user_data;
 };
 
 /**
