@@ -79,6 +79,10 @@ void at_client_ingest(struct at_client_t *client, int_fast16_t size, uint8_t *bu
             client->passthrough(client,pending_bytes,buffer + i );
             client->passthrough_bytes -= pending_bytes;
             return;
+        }else if (client->passthrough_bytes == -1){
+            size_t pending_bytes = (size - i);
+            client->passthrough(client,pending_bytes,buffer + i );
+            return;
         }
 
         if (buffer[i] == '\r' || buffer[i] == '\n')

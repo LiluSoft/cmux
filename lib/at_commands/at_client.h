@@ -73,7 +73,7 @@ struct at_client_t
 
     void (*send_to_interface)( struct at_client_t * client,int_fast16_t size, uint8_t *buffer);
 
-    size_t passthrough_bytes;
+    int_fast16_t passthrough_bytes;
     void (*passthrough)(struct at_client_t *client,int_fast16_t size, uint8_t *buffer);
     
     struct at_client_command_t commands[MAXIMUM_COMMAND_CALLBACKS];
@@ -105,7 +105,7 @@ void at_client_ingest(struct at_client_t *client, int_fast16_t size, uint8_t *bu
  * used for ingesting incoming byte arrays, such as +IPD and #SRECV.
  * 
  * @param client client instance
- * @param size number of bytes to pass through
+ * @param size number of bytes to pass through, use -1 for permanent pass through
  */
 void at_client_ingest_set_passthrough_bytes(struct at_client_t *client, int_fast16_t size);
 
