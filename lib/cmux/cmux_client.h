@@ -11,6 +11,11 @@
 #include "cmux_service_codec.h"
 #include "cmux_service_request_codec.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /**
  * @file cmux_client.h
  * @brief CMUX Client
@@ -135,6 +140,12 @@ struct cmux_client_options_t
      *
      */
     uint8_t maximum_dlci;
+
+    /**
+     * @brief User Data for callbacks
+     * 
+     */
+    void * user_data;
 };
 
 /**
@@ -212,3 +223,15 @@ void cmux_client_terminal_send(cmux_client_instance_t *cmux_client, const uint8_
  * @param dlci
  */
 void cmux_client_terminal_close(cmux_client_instance_t *cmux_client, uint8_t dlci);
+
+/**
+ * @brief retrieve user_data pointer, used in callbacks
+ * 
+ * @param cmux_client 
+ * @return void* 
+ */
+void * cmux_client_get_user_data(cmux_client_instance_t *cmux_client);
+
+#ifdef __cplusplus
+}
+#endif

@@ -268,3 +268,7 @@ void cmux_client_terminal_close(cmux_client_instance_t *cmux_client, uint8_t dlc
 {
     cmux_client_request(cmux_client, dlci, DISC, NULL);
 }
+
+void * cmux_client_get_user_data(cmux_client_instance_t *cmux_client){
+    return cmux_client->options.user_data;
+}
