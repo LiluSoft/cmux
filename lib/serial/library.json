@@ -1,0 +1,16 @@
+{
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "serial",
+    "version": "1.2.1",
+    "description": "Cross-platform, Serial Port library written in C++",
+    "repository": {
+        "url": "https://github.com/wjwwood/serial"
+    },
+    "homepage": "http://wjwwood.github.com/serial/",
+    "license": "MIT",
+    "build": {
+        "includeDir": "include",
+        "srcDir": "./",
+        "srcFilter": "+<src/*>"
+    }
+}
