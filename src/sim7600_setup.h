@@ -5,6 +5,11 @@
 typedef void (*send_to_interface_t)( struct sim7600_t * client,int_fast16_t size, uint8_t *buffer);
 typedef void (*passthrough_t)(struct sim7600_t *client,int_fast16_t size, uint8_t *buffer);
 
+enum AT_COMMAND_TYPE{
+    NORMAL,
+    CMUX
+};
+
 enum AT_STATUS{
     AT_STATUS_NONE,
     AT_STATUS_WAITING,
@@ -17,6 +22,7 @@ struct sim7600_t{
     struct at_client_t client;
     send_to_interface_t send_to_interface;
     passthrough_t passthrough;
+    enum AT_COMMAND_TYPE command_type;
     void * user_data;
 };
 
@@ -24,6 +30,9 @@ void on_ok(struct at_client_t *client, int_fast16_t, uint8_t *){
     printf("on ok \r\n");
     struct sim7600_t * sim7600 =(struct sim7600_t *) client->user_data;
     sim7600->status = AT_STATUS_OK;
+    if (sim7600->command_type == CMUX){
+        at_client_ingest_set_passthrough_bytes(client, -1);
+    }
 }
 
 void on_error(struct at_client_t *client, int_fast16_t, uint8_t *){
@@ -42,7 +51,7 @@ void send_to_interface(struct at_client_t *client, int_fast16_t size, uint8_t * 
     sim7600->send_to_interface(sim7600, size, buffer);
 }   
 
-void setup_cmux(struct sim7600_t *sim7600){
+void setup_sim7600(struct sim7600_t *sim7600){
     sim7600->client.user_data = sim7600;
     sim7600->client.passthrough = passthrough;
     sim7600->client.send_to_interface = send_to_interface;
@@ -66,9 +75,15 @@ void sim7600_ingest(struct sim7600_t *sim7600,uint8_t * buffer, size_t length){
 }
 
 void sim7600_test(struct sim7600_t *sim7600){
-    //clear state machine
     sim7600->status = AT_STATUS_WAITING;
+    sim7600->command_type = NORMAL;
     at_client_send(&sim7600->client,"AT\r\n" );
+}
+
+void sim7600_start_cmux(struct sim7600_t *sim7600){
+    sim7600->status = AT_STATUS_WAITING;
+    sim7600->command_type = CMUX;
+    at_client_send(&sim7600->client,"AT+CMUX=0\r\n" );
 }
 
 void sim7600_clear_status(struct sim7600_t *sim7600){

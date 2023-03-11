@@ -1,24 +1,9 @@
+#include "serial_setup.h"
 #include <string>
 #include <iostream>
 #include <cstdio>
 
-// OS Specific sleep
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
-#include "serial_setup.h"
-
-void my_sleep(unsigned long milliseconds)
-{
-#ifdef _WIN32
-  Sleep(milliseconds); // 100 ms
-#else
-  usleep(milliseconds * 1000); // 100 ms
-#endif
-}
+#include "sleep.h"
 
 int main(int argc, char **argv)
 {
@@ -31,6 +16,6 @@ int main(int argc, char **argv)
   while (true)
   {
     serial_loop(&serial);
-    my_sleep(100);
+    my_sleep(1000);
   }
 }
