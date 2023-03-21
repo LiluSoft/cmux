@@ -59,7 +59,8 @@ struct at_client_command_t
     const char *command;
     char delimiter;
     enum COMMAND_COMPARISON_TYPE comparison_type;
-    void (*callback)(struct at_client_t *client,int_fast16_t size, uint8_t *buffer);
+    void * user_data;
+    void (*callback)(struct at_client_t *client, struct at_client_command_t *command,int_fast16_t size, uint8_t *buffer);
 };
 
 /**
@@ -77,7 +78,6 @@ struct at_client_t
     void (*passthrough)(struct at_client_t *client,int_fast16_t size, uint8_t *buffer);
     
     struct at_client_command_t commands[MAXIMUM_COMMAND_CALLBACKS];
-    char delimiters[MAXIMUM_COMMAND_CALLBACKS];
     size_t last_delimiter;
 
     void * user_data;
@@ -108,6 +108,22 @@ void at_client_ingest(struct at_client_t *client, int_fast16_t size, uint8_t *bu
  * @param size number of bytes to pass through, use -1 for permanent pass through
  */
 void at_client_ingest_set_passthrough_bytes(struct at_client_t *client, int_fast16_t size);
+
+/**
+ * @brief Clear client command handlers
+ * 
+ * @param client 
+ */
+void at_client_clear_commands(struct at_client_t *client);
+
+/**
+ * @brief add a command handler
+ * assert if a handler already exists for command, delimiter and comparison type
+ * @param client 
+ * @param command 
+ * @return size_t index of added command
+ */
+size_t at_client_add_command(struct at_client_t *client,struct at_client_command_t *command);
 
 #ifdef __cplusplus
 }
