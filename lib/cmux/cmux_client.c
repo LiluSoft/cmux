@@ -135,7 +135,11 @@ static void send_frame(cmux_client_instance_t *cmux_client, struct builder_frame
     uint8_t *frame = malloc(build_frame_size);
     cmux_frame_builder(frame_info, frame);
 
-    cmux_client->options.cmux_client_send_to_interface(cmux_client, frame, build_frame_size);
+    if (cmux_client->options.cmux_client_send_to_interface == NULL){
+        CMUX_LOG_ERROR("Unable to send frame, no interface");
+    }else{
+        cmux_client->options.cmux_client_send_to_interface(cmux_client, frame, build_frame_size);
+    }
     free(frame);
 }
 
@@ -266,6 +270,7 @@ void cmux_client_terminal_send(cmux_client_instance_t *cmux_client, const uint8_
 
 void cmux_client_terminal_close(cmux_client_instance_t *cmux_client, uint8_t dlci)
 {
+    CMUX_LOG_DEBUG("closing terminal %d", dlci);
     cmux_client_request(cmux_client, dlci, DISC, NULL);
 }
 
