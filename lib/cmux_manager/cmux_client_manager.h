@@ -5,7 +5,7 @@
 #include <cmux_client.h>
 #include <stdio.h>
 
-#include "clock.h"
+#include <clock.h>
 
 #define CMUX_CLIENT_MANAGER_MAXIMUM_TERMINALS 4
 
